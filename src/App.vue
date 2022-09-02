@@ -1,12 +1,13 @@
 <script setup>
 import { ref } from 'vue'
+import { nanoid } from 'nanoid'
 
 const newGrocery = ref('')
 const gorceries = ref([])
 
 const addGrocery = () => {
   if (newGrocery.value){
-    gorceries.value.push(newGrocery.value)
+    gorceries.value.push({id: nanoid(), name: newGrocery.value})
     newGrocery.value = ''
   }
 }
