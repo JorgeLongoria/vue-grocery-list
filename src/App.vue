@@ -3,11 +3,11 @@ import { ref } from 'vue'
 import { nanoid } from 'nanoid'
 
 const newGrocery = ref('')
-const gorceries = ref([])
+const groceries = ref([])
 
 const addGrocery = () => {
   if (newGrocery.value){
-    gorceries.value.push({id: nanoid(), name: newGrocery.value})
+    groceries.value.push({id: nanoid(), name: newGrocery.value})
     newGrocery.value = ''
   }
 }
@@ -27,10 +27,11 @@ const deleteGrocery = () => {
       <button type="submit">Add</button>
     </form>
     <ul>
-      <li @click="deleteGrocery">{{ newGrocery }}</li>
+      <li v-for="grocery in groceries" @click="deleteGrocery">
+        {{ grocery.name }}
+      </li>
     </ul>
   </main>
-  <pre>{{gorceries}}</pre>
 </template>
 
 <style lang="postcss" scoped>
