@@ -1,19 +1,24 @@
 <script setup>
 import { ref } from 'vue'
+import { useStorage } from '@vueuse/core'
 import { nanoid } from 'nanoid'
+import confetti from 'canvas-confetti'
+
 
 const newGrocery = ref('')
-const groceries = ref([])
+const groceries = useStorage('groceries', [])
 
 const addGrocery = () => {
   if (newGrocery.value){
-    groceries.value.push({id: nanoid(), name: newGrocery.value})
+    groceries.value.push({ id: nanoid(), name: newGrocery.value  })
     newGrocery.value = ''
   }
 }
 
-const deleteGrocery = () => {
-  newGrocery.value = 'deleting new item'
+const deleteGrocery = id => {
+  const removeIndex = groceries.value.findIndex(grocery => grocery.id === id)
+  groceries.value.splice(removeIndex, 1)
+  confetti({ particleCount: 300, spread: 1000, origin: { y: 1 } })
 }
 
 
@@ -27,7 +32,7 @@ const deleteGrocery = () => {
       <button type="submit">Add</button>
     </form>
     <ul>
-      <li v-for="grocery in groceries" @click="deleteGrocery">
+      <li v-for="grocery in groceries" @click="deleteGrocery(grocery.id)">
         {{ grocery.name }}
       </li>
     </ul>
@@ -36,7 +41,7 @@ const deleteGrocery = () => {
 
 <style lang="postcss" scoped>
   main{
-    @apply flex flex-col justify-center items-center;
+    @apply mt-9 flex flex-col justify-center items-center;
   
   }
   .title{
@@ -44,7 +49,7 @@ const deleteGrocery = () => {
   }
 
   form{
-    @apply flex focus-within:ring-8 focus-within:rounded-lg;
+    @apply mt-9 flex focus-within:ring-8 focus-within:rounded-lg;
     input{
       @apply bg-white text-black p-2 w-80 text-2xl rounded-l-md;
     }
@@ -56,7 +61,7 @@ const deleteGrocery = () => {
     }
   }
   ul{
-    @apply flex flex-col items-center justify-center rounded-md;
+    @apply mt-9 flex flex-col items-center justify-center rounded-lg bg-gray-800;
     li{
       @apply bg-white text-black m-2 p-2 w-96 text-center;
       &:hover{
