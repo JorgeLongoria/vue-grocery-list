@@ -31,6 +31,7 @@ const deleteGrocery = id => {
       <input id="newGrocery" autocomplete="off" type="text" placeholder="Add an item to the list" v-model="newGrocery"/>
       <button type="submit">Add</button>
     </form>
+    <h3>Pending Items: {{ groceries.length }}</h3>
     <ul>
       <li v-for="grocery in groceries" @click="deleteGrocery(grocery.id)">
         {{ grocery.name }}
@@ -49,7 +50,7 @@ const deleteGrocery = id => {
   }
 
   form{
-    @apply mt-9 flex focus-within:ring-8 focus-within:rounded-lg;
+    @apply mt-9 flex focus-within:rounded-lg;
     input{
       @apply bg-white text-black p-2 w-80 text-2xl rounded-l-md;
     }
